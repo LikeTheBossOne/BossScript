@@ -39,15 +39,14 @@ namespace Lexer.BossScriptParser
         INT_LIT,
         DOUBLE_LIT,
         STRING_LIT,
-
-        SIZE
     }
 
     internal class BossScript
     {
         private static BossScriptParserScanner Scanner;
-        public static int yylineno, yycolno;
+        public static int yylineno, yylcolno;
         public static SimpleToken yylval;
+        public static SimpleToken LastToken;
 
         public static void Run(string input)
         {
@@ -63,49 +62,7 @@ namespace Lexer.BossScriptParser
 
         public static short Ord(char character)
         {
-            switch (character)
-            {
-                case '(':
-                    return (int) ParseType.SIZE + 1;
-                case ')':
-                    return (int)ParseType.SIZE + 2;
-                case '[':
-                    return (int)ParseType.SIZE + 3;
-                case ']':
-                    return (int)ParseType.SIZE + 4;
-                case '{':
-                    return (int)ParseType.SIZE + 5;
-                case '}':
-                    return (int)ParseType.SIZE + 6;
-                case ';':
-                    return (int)ParseType.SIZE + 7;
-                case ':':
-                    return (int)ParseType.SIZE + 8;
-                case '!':
-                    return (int)ParseType.SIZE + 9;
-                case '*':
-                    return (int)ParseType.SIZE + 10;
-                case '/':
-                    return (int)ParseType.SIZE + 11;
-                case '%':
-                    return (int)ParseType.SIZE + 12;
-                case '+':
-                    return (int)ParseType.SIZE + 13;
-                case '-':
-                    return (int)ParseType.SIZE + 14;
-                case '<':
-                    return (int)ParseType.SIZE + 15;
-                case '>':
-                    return (int)ParseType.SIZE + 16;
-                case '=':
-                    return (int)ParseType.SIZE + 17;
-                case ',':
-                    return (int)ParseType.SIZE + 18;
-                case '.':
-                    return (int)ParseType.SIZE + 19;
-                default:
-                    return -1;
-            }
+            return (short) character;
         }
 
         public static int Scan(int cat)
@@ -114,8 +71,8 @@ namespace Lexer.BossScriptParser
             {
                 LexErr("invalid token type");
             }
-
-            yylval = new SimpleToken(cat, Scanner.yytext, yylineno);
+            LastToken = yylval = new SimpleToken(cat, Scanner.yytext, yylineno);
+            yylcolno += Scanner.yytext.Length;
             return cat;
         }
 
@@ -128,6 +85,28 @@ namespace Lexer.BossScriptParser
         public static void IncrementLineNo()
         {
             yylineno++;
+        }
+
+        public static void WhiteSpace()
+        {
+            yylcolno += Scanner.yytext.Length;
+        }
+
+        public static void NewLine()
+        {
+            yylineno++;
+            yylcolno = 1;
+
+            if (LastToken != null)
+            {
+                switch (LastToken.Cat)
+                {
+                    case (int)ParseType.IDENTIFIER:
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         public static void Comment()
