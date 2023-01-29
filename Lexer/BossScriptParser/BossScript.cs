@@ -44,20 +44,32 @@ namespace Lexer.BossScriptParser
     internal class BossScript
     {
         private static BossScriptParserScanner Scanner;
-        public static int yylineno, yylcolno;
-        public static SimpleToken yylval;
+
+        private static string? _yytextInternal;
+        public static string YYText
+        {
+            get => _yytextInternal ?? Scanner.yytext;
+            set => _yytextInternal = value;
+        }
+
+        public static int YYLineno, YYColno;
+        public static SimpleToken YYLval;
         public static SimpleToken LastToken;
 
         public static void Run(string input)
         {
-            byte[] inputBuffer = System.Text.Encoding.Default.GetBytes(input);
+            byte[] inputBuffer = Encoding.Default.GetBytes(input);
             MemoryStream stream = new MemoryStream(inputBuffer);
             Scanner = new BossScriptParserScanner(stream);
-            yylineno = 1;
+            YYLineno = 1;
 
             int i;
-            while ((i = Scanner.yylex()) != (int)Token.EOF)
-                Console.WriteLine("token" + i + " (line " + yylval.Lineno + "): " + Scanner.yytext);
+            while ((i = Scanner.yylex()) != (int) Token.EOF)
+            {
+                Console.WriteLine("token" + i + " (line " + YYLval.LineNo + "): " + YYText);
+
+                _yytextInternal = null;
+            }
         }
 
         public static short Ord(char character)
@@ -71,8 +83,7 @@ namespace Lexer.BossScriptParser
             {
                 LexErr("invalid token type");
             }
-            LastToken = yylval = new SimpleToken(cat, Scanner.yytext, yylineno);
-            yylcolno += Scanner.yytext.Length;
+            LastToken = YYLval = new SimpleToken(cat, YYText, YYLineno);
             return cat;
         }
 
@@ -81,42 +92,66 @@ namespace Lexer.BossScriptParser
         {
             return Scan((int) parseType);
         }
-
-        public static void IncrementLineNo()
-        {
-            yylineno++;
-        }
+        
 
         public static void WhiteSpace()
         {
-            yylcolno += Scanner.yytext.Length;
+            YYColno += YYText.Length;
         }
 
-        public static void NewLine()
+        public static bool NewLine()
         {
-            yylineno++;
-            yylcolno = 1;
+            YYLineno++;
+            YYColno = 1;
 
             if (LastToken != null)
             {
                 switch (LastToken.Cat)
                 {
                     case (int)ParseType.IDENTIFIER:
-                        break;
-                    default:
-                        break;
+                    case (int)ParseType.INT_LIT:
+                    case (int)ParseType.DOUBLE_LIT:
+                    case (int)ParseType.STRING_LIT:
+                    case (int)ParseType.BREAK:
+                    case (int)ParseType.RETURN:
+                    case (int)ParseType.INCREMENT:
+                    case (int)ParseType.DECREMENT:
+                    case ')':
+                    case ']':
+                    case '}':
+                        return true;
                 }
             }
+
+            return false;
+        }
+
+        public static int Semicolon()
+        {
+            YYText = ";";
+            YYLineno--;
+            return Scan(';');
         }
 
         public static void Comment()
         {
-            
+            for (int i = 0; i < YYText.Length; i++)
+            {
+                if (YYText[i] == '\n')
+                {
+                    YYLineno++;
+                    YYColno = 1;
+                }
+                else
+                {
+                    YYColno++;
+                }
+            }
         }
 
         public static void LexErr(string err)
         {
-            Console.Error.WriteLine(err + ": line " + yylineno + ": " + Scanner.yytext);
+            Console.Error.WriteLine(err + ": line " + YYLineno + ": " + YYText);
             Environment.Exit(1);
         }
     }

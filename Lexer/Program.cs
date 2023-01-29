@@ -7,9 +7,12 @@ namespace Lexer
         static void Main(string[] args)
         {
             string input = 
-@"dorrie is 
-1 
-fine puppy.";
+@"public class hello {
+    public static void main(String argv[]) {
+        System.out.println(""hello, jzero!"");
+    }
+}
+";
             BossScript.Run(input);
         }
     }
