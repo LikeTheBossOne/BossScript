@@ -1,19 +1,19 @@
-﻿using Lexer.BossScriptParser;
+﻿using BossScript.BossScript;
 
-namespace Lexer
+namespace BossScript
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            string input = 
-@"public class hello {
-    public static void main(String argv[]) {
+            var parser = new BossScriptParser();
+            parser.Run(
+                @"public class hello {
+    public static void main(string argv[]) {
         System.out.println(""hello, jzero!"");
     }
-}
-";
-            BossScript.Run(input);
+}"
+                );
         }
     }
 }

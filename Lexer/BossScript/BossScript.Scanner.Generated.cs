@@ -5,8 +5,8 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  1.2.2
-//  DateTime: 1/28/2023 9:07:18 AM
-//  GPLEX input file <BossScriptParser\BossScriptParser.Language.analyzer.lex - 1/28/2023 9:07:16 AM>
+//  DateTime: 1/29/2023 7:07:13 PM
+//  GPLEX input file <BossScript\BossScript.Language.analyzer.lex - 1/29/2023 7:06:58 PM>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: verbose, parser, stack, minimize
@@ -33,7 +33,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using QUT.GplexBuffers;
 
-namespace Lexer.BossScriptParser
+namespace BossScript.BossScript
 {   
     /// <summary>
     /// Summary Canonical example of GPLEX automaton
@@ -103,7 +103,7 @@ namespace Lexer.BossScriptParser
                    currentStart = startState[value]; }
         }
 #else  // BABEL
-     internal sealed partial class BossScriptParserScanner : ScanBase
+     internal sealed partial class BossScriptScanner : ScanBase
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal
@@ -897,12 +897,12 @@ int NextState() {
         // =================== End Nested classes =======================
 
 #if !NOFILES
-     internal BossScriptParserScanner(Stream file) {
+     internal BossScriptScanner(Stream file) {
             SetSource(file); // no unicode option
         }   
 #endif // !NOFILES
 
-     internal BossScriptParserScanner() { }
+     internal BossScriptScanner() { }
 
         private int readPos;
 
@@ -1246,61 +1246,61 @@ int NextState() {
         case 5: // Recognized '.',	Shortest string "\""
         case 7: // Recognized '.',	Shortest string "&"
         case 39: // Recognized '.',	Shortest string "|"
-BossScript.LexErr("unrecognized character");
+LexErr("unrecognized character");
             break;
         case 2: // Recognized '[ \t\r\f]+',	Shortest string "\t"
-BossScript.WhiteSpace();
+WhiteSpace();
             break;
         case 3: // Recognized '\n',	Shortest string "\n"
-if (BossScript.NewLine()) return BossScript.Semicolon();
+NewLine();
             break;
         case 4: // Recognized '"!"',	Shortest string "!"
-return BossScript.Scan(BossScript.Ord('!'));
+return Scan(Ord('!'));
             break;
         case 6: // Recognized '"%"',	Shortest string "%"
-return BossScript.Scan(BossScript.Ord('%'));
+return Scan(Ord('%'));
             break;
         case 8: // Recognized '"("',	Shortest string "("
-return BossScript.Scan(BossScript.Ord('('));
+return Scan(Ord('('));
             break;
         case 9: // Recognized '")"',	Shortest string ")"
-return BossScript.Scan(BossScript.Ord(')'));
+return Scan(Ord(')'));
             break;
         case 10: // Recognized '"*"',	Shortest string "*"
-return BossScript.Scan(BossScript.Ord('*'));
+return Scan(Ord('*'));
             break;
         case 11: // Recognized '"+"',	Shortest string "+"
-return BossScript.Scan(BossScript.Ord('+'));
+return Scan(Ord('+'));
             break;
         case 12: // Recognized '","',	Shortest string ","
-return BossScript.Scan(BossScript.Ord(','));
+return Scan(Ord(','));
             break;
         case 13: // Recognized '"-"',	Shortest string "-"
-return BossScript.Scan(BossScript.Ord('-'));
+return Scan(Ord('-'));
             break;
         case 14: // Recognized '"."',	Shortest string "."
-return BossScript.Scan(BossScript.Ord('.'));
+return Scan(Ord('.'));
             break;
         case 15: // Recognized '"/"',	Shortest string "/"
-return BossScript.Scan(BossScript.Ord('/'));
+return Scan(Ord('/'));
             break;
         case 16: // Recognized '[0-9]+',	Shortest string "0"
-return BossScript.Scan(ParseType.INT_LIT);
+return Scan(ParseType.INT_LIT);
             break;
         case 17: // Recognized '":"',	Shortest string ":"
-return BossScript.Scan(BossScript.Ord(':'));
+return Scan(Ord(':'));
             break;
         case 18: // Recognized '";"',	Shortest string ";"
-return BossScript.Scan(BossScript.Ord(';'));
+return Scan(Ord(';'));
             break;
         case 19: // Recognized '"<"',	Shortest string "<"
-return BossScript.Scan(BossScript.Ord('<'));
+return Scan(Ord('<'));
             break;
         case 20: // Recognized '"="',	Shortest string "="
-return BossScript.Scan(BossScript.Ord('='));
+return Scan(Ord('='));
             break;
         case 21: // Recognized '">"',	Shortest string ">"
-return BossScript.Scan(BossScript.Ord('>'));
+return Scan(Ord('>'));
             break;
         case 22: // Recognized '[a-zA-Z_][a-zA-Z0-9_]*',	Shortest string "A"
         case 25: // Recognized '[a-zA-Z_][a-zA-Z0-9_]*',	Shortest string "b"
@@ -1359,115 +1359,115 @@ return BossScript.Scan(BossScript.Ord('>'));
         case 97: // Recognized '[a-zA-Z_][a-zA-Z0-9_]*',	Shortest string "bre"
         case 98: // Recognized '[a-zA-Z_][a-zA-Z0-9_]*',	Shortest string "brea"
         case 100: // Recognized '[a-zA-Z_][a-zA-Z0-9_]*',	Shortest string "boo"
-return BossScript.Scan(ParseType.IDENTIFIER);
+return Scan(ParseType.IDENTIFIER);
             break;
         case 23: // Recognized '"["',	Shortest string "["
-return BossScript.Scan(BossScript.Ord('['));
+return Scan(Ord('['));
             break;
         case 24: // Recognized '"]"',	Shortest string "]"
-return BossScript.Scan(BossScript.Ord(']'));
+return Scan(Ord(']'));
             break;
         case 38: // Recognized '"{"',	Shortest string "{"
-return BossScript.Scan(BossScript.Ord('{'));
+return Scan(Ord('{'));
             break;
         case 40: // Recognized '"}"',	Shortest string "}"
-return BossScript.Scan(BossScript.Ord('}'));
+return Scan(Ord('}'));
             break;
         case 41: // Recognized '"||"',	Shortest string "||"
-return BossScript.Scan(ParseType.LOGICAL_OR);
+return Scan(ParseType.LOGICAL_OR);
             break;
         case 45: // Recognized '"while"',	Shortest string "while"
-return BossScript.Scan(ParseType.WHILE);
+return Scan(ParseType.WHILE);
             break;
         case 48: // Recognized '"void"',	Shortest string "void"
-return BossScript.Scan(ParseType.VOID);
+return Scan(ParseType.VOID);
             break;
         case 51: // Recognized '"true"',	Shortest string "true"
-return BossScript.Scan(ParseType.BOOL_LIT);
+return Scan(ParseType.BOOL_LIT);
             break;
         case 57: // Recognized '"string"',	Shortest string "string"
-return BossScript.Scan(ParseType.STRING);
+return Scan(ParseType.STRING);
             break;
         case 60: // Recognized '"static"',	Shortest string "static"
-return BossScript.Scan(ParseType.STATIC);
+return Scan(ParseType.STATIC);
             break;
         case 65: // Recognized '"return"',	Shortest string "return"
-return BossScript.Scan(ParseType.RETURN);
+return Scan(ParseType.RETURN);
             break;
         case 70: // Recognized '"public"',	Shortest string "public"
-return BossScript.Scan(ParseType.PUBLIC);
+return Scan(ParseType.PUBLIC);
             break;
         case 73: // Recognized '"null"',	Shortest string "null"
-return BossScript.Scan(ParseType.NULL_VAL);
+return Scan(ParseType.NULL_VAL);
             break;
         case 74: // Recognized '"if"',	Shortest string "if"
-return BossScript.Scan(ParseType.IF);
+return Scan(ParseType.IF);
             break;
         case 76: // Recognized '"int"',	Shortest string "int"
-return BossScript.Scan(ParseType.INT);
+return Scan(ParseType.INT);
             break;
         case 79: // Recognized '"for"',	Shortest string "for"
-return BossScript.Scan(ParseType.FOR);
+return Scan(ParseType.FOR);
             break;
         case 82: // Recognized '"false"',	Shortest string "false"
-return BossScript.Scan(ParseType.BOOL_LIT);
+return Scan(ParseType.BOOL_LIT);
             break;
         case 85: // Recognized '"else"',	Shortest string "else"
-return BossScript.Scan(ParseType.ELSE);
+return Scan(ParseType.ELSE);
             break;
         case 90: // Recognized '"double"',	Shortest string "double"
-return BossScript.Scan(ParseType.DOUBLE);
+return Scan(ParseType.DOUBLE);
             break;
         case 94: // Recognized '"class"',	Shortest string "class"
-return BossScript.Scan(ParseType.CLASS);
+return Scan(ParseType.CLASS);
             break;
         case 99: // Recognized '"break"',	Shortest string "break"
-return BossScript.Scan(ParseType.BREAK);
+return Scan(ParseType.BREAK);
             break;
         case 101: // Recognized '"bool"',	Shortest string "bool"
-return BossScript.Scan(ParseType.BOOL);
+return Scan(ParseType.BOOL);
             break;
         case 102: // Recognized '">="',	Shortest string ">="
-return BossScript.Scan(ParseType.GREATER_THAN_OR_EQUAL);
+return Scan(ParseType.GREATER_THAN_OR_EQUAL);
             break;
         case 103: // Recognized '"=="',	Shortest string "=="
-return BossScript.Scan(ParseType.IS_EQUAL_TO);
+return Scan(ParseType.IS_EQUAL_TO);
             break;
         case 104: // Recognized '"<="',	Shortest string "<="
-return BossScript.Scan(ParseType.LESS_THAN_OR_EQUAL);
+return Scan(ParseType.LESS_THAN_OR_EQUAL);
             break;
         case 105: // Recognized '[0-9]+"."[0-9]*([eE][+-]?[0-9]+)?',	Shortest string "0."
         case 107: // Recognized '[0-9]+"."[0-9]*([eE][+-]?[0-9]+)?',	Shortest string "0.E0"
-return BossScript.Scan(ParseType.DOUBLE_LIT);
+return Scan(ParseType.DOUBLE_LIT);
             break;
         case 106: // Recognized '([0-9]+)([eE][+-]?([0-9]+))',	Shortest string "0E0"
-return BossScript.Scan(ParseType.DOUBLE_LIT);
+return Scan(ParseType.DOUBLE_LIT);
             break;
         case 108: // Recognized '"//".*\r?\n',	Shortest string "//\n"
-BossScript.Comment();
+Comment();
             break;
         case 109: // Recognized '"/*"([^*]|"*"+[^/*])*"*"+"/"',	Shortest string "/**/"
-BossScript.Comment();
+Comment();
             break;
         case 110: // Recognized '[0-9]*"."[0-9]+([eE][+-]?[0-9]+)?',	Shortest string ".0"
         case 111: // Recognized '[0-9]*"."[0-9]+([eE][+-]?[0-9]+)?',	Shortest string ".0E0"
-return BossScript.Scan(ParseType.DOUBLE_LIT);
+return Scan(ParseType.DOUBLE_LIT);
             break;
         case 112: // Recognized '"-="',	Shortest string "-="
-return BossScript.Scan(ParseType.DECREMENT);
+return Scan(ParseType.DECREMENT);
             break;
         case 113: // Recognized '"+="',	Shortest string "+="
-return BossScript.Scan(ParseType.INCREMENT);
+return Scan(ParseType.INCREMENT);
             break;
         case 114: // Recognized '"&&"',	Shortest string "&&"
-return BossScript.Scan(ParseType.LOGICAL_AND);
+return Scan(ParseType.LOGICAL_AND);
             break;
         case 115: // Recognized '\"(([^\"])|(\\.))*\"',	Shortest string "\"\""
         case 116: // Recognized '\"(([^\"])|(\\.))*\"',	Shortest string "\"\\\""
-return BossScript.Scan(ParseType.STRING_LIT);
+return Scan(ParseType.STRING_LIT);
             break;
         case 117: // Recognized '"!="',	Shortest string "!="
-return BossScript.Scan(ParseType.NOT_EQUAL_TO);
+return Scan(ParseType.NOT_EQUAL_TO);
             break;
         default:
             break;
