@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BossScript", "Lexer\BossScript.csproj", "{80E6649D-AF8F-4741-9869-406C8DA475A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BossScript", "BossScript\BossScript.csproj", "{80E6649D-AF8F-4741-9869-406C8DA475A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestBossScript", "TestBossScript\TestBossScript.csproj", "{C4D9A027-6BF5-42E6-9025-54C2072EA38F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{80E6649D-AF8F-4741-9869-406C8DA475A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80E6649D-AF8F-4741-9869-406C8DA475A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80E6649D-AF8F-4741-9869-406C8DA475A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4D9A027-6BF5-42E6-9025-54C2072EA38F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4D9A027-6BF5-42E6-9025-54C2072EA38F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4D9A027-6BF5-42E6-9025-54C2072EA38F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4D9A027-6BF5-42E6-9025-54C2072EA38F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

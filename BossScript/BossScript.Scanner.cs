@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BossScript.BossScript
+namespace BossScript
 {
     enum ParseType : short
     {
@@ -19,14 +19,11 @@ namespace BossScript.BossScript
 
     internal partial class BossScriptScanner
     {
-
-        //public static int YYLineno, YYColno;
-        //public static SimpleToken YYLval;
-        public int LastToken;
+        public Token LastToken;
 
         public int Ord(char character)
         {
-            return (int)character;
+            return character;
         }
 
         public int Scan(int cat)
@@ -38,7 +35,11 @@ namespace BossScript.BossScript
             {
                 LexErr("invalid token type");
             }
-            LastToken = yylval = cat;
+
+            LastToken = new Token((TokenType)cat, yytext, yyline);
+
+            yylval = new ParserVal{ obj = new Tree("token", 0, LastToken) };
+
             return cat;
         }
 
@@ -59,16 +60,16 @@ namespace BossScript.BossScript
             lNum++;
             cCol = 1;
 
-            switch (LastToken)
+            switch ((int)LastToken.Type)
             {
-                case (int)ParseType.IDENTIFIER:
-                case (int)ParseType.INT_LIT:
-                case (int)ParseType.DOUBLE_LIT:
-                case (int)ParseType.STRING_LIT:
-                case (int)ParseType.BREAK:
-                case (int)ParseType.RETURN:
-                case (int)ParseType.INCREMENT:
-                case (int)ParseType.DECREMENT:
+                case (int)TokenType.IDENTIFIER:
+                case (int)TokenType.INT_LIT:
+                case (int)TokenType.DOUBLE_LIT:
+                case (int)TokenType.STRING_LIT:
+                case (int)TokenType.BREAK:
+                case (int)TokenType.RETURN:
+                case (int)TokenType.INCREMENT:
+                case (int)TokenType.DECREMENT:
                 case ')':
                 case ']':
                 case '}':
@@ -109,10 +110,10 @@ namespace BossScript.BossScript
         }
 
         public override void yyerror(string format, params object[] args)
-		{
-			base.yyerror(format, args);
-			Console.WriteLine(format);
-			Console.WriteLine();
+        {
+            base.yyerror(format, args);
+            Console.WriteLine(" line " + lNum + " column " + cCol + ", lexeme \"" + yytext + "\": " + format);
+            Console.WriteLine();
         }
 
     }

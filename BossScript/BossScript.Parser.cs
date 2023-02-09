@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace BossScript.BossScript
+namespace BossScript
 {
     internal partial class BossScriptParser
     {
@@ -13,18 +13,31 @@ namespace BossScript.BossScript
 
         public BossScriptParser() : base(null) { }
 
+        public ParserVal RootVal { get; private set; }
+
         public void Run(string input)
         {
             byte[] inputBuffer = Encoding.Default.GetBytes(input);
             MemoryStream stream = new MemoryStream(inputBuffer);
             var scanner = new BossScriptScanner(stream);
-            this.Scanner = scanner;
+            Scanner = scanner;
 
-            bool success = this.Parse();
+            bool success = Parse();
             if (success)
             {
                 Console.WriteLine("No errors");
             }
+        }
+
+        public static ParserVal MakeNode(String symbol, int rule, params ParserVal[] parserVals)
+        {
+            Tree[] trees = new Tree[parserVals.Length];
+            for (int i = 0; i < trees.Length; i++)
+            {
+                trees[i] = (Tree)parserVals[i].obj;
+            }
+
+            return new ParserVal{ obj = new Tree(symbol, rule, trees) };
         }
     }
 }

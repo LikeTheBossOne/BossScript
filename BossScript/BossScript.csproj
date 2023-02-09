@@ -9,19 +9,19 @@
     <PackageReference Include="YaccLexTools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup Label="BossScript">
-    <YaccFile Include="BossScript\BossScript.Language.grammar.y">
-      <OutputFile>BossScript\BossScript.Parser.Generated.cs</OutputFile>
+    <YaccFile Include="BossScript.Language.grammar.y">
+      <OutputFile>BossScript.Parser.Generated.cs</OutputFile>
       <Arguments>/gplex /nolines</Arguments>
     </YaccFile>
-    <None Include="BossScript\BossScript.Parser.Generated.cs">
+    <None Include="BossScript.Parser.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BossScript.Language.grammar.y</DependentUpon>
     </None>
-    <LexFile Include="BossScript\BossScript.Language.analyzer.lex">
-      <OutputFile>BossScript\BossScript.Scanner.Generated.cs</OutputFile>
+    <LexFile Include="BossScript.Language.analyzer.lex">
+      <OutputFile>BossScript.Scanner.Generated.cs</OutputFile>
     </LexFile>
-    <None Include="BossScript\BossScript.Scanner.Generated.cs">
+    <None Include="BossScript.Scanner.Generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BossScript.Language.analyzer.lex</DependentUpon>

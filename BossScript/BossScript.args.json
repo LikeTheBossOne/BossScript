@@ -1,0 +1,10 @@
+{
+  "FileVersion": 2,
+  "Id": "80e6649d-af8f-4741-9869-406c8da475a4",
+  "Items": [
+    {
+      "Id": "c52dfe84-6a9b-4c0c-acfa-8d24b60b4e70",
+      "Command": "simpleProgram.bs"
+    }
+  ]
+}

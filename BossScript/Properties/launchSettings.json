@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BossScript": {
+      "commandName": "Project",
+      "commandLineArgs": "simpleProgram.bs"
+    }
+  }
+}

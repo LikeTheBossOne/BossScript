@@ -1,4 +1,4 @@
-%namespace BossScript.BossScript
+%namespace BossScript
 %scannertype BossScriptScanner
 %visibility internal
 %tokentype Token
@@ -30,7 +30,7 @@
 "public"						{ return Scan(ParseType.PUBLIC); }
 "return"						{ return Scan(ParseType.RETURN); }
 "static"						{ return Scan(ParseType.STATIC); }
-"string"						{ return Scan(ParseType.STRING); }
+"String"						{ return Scan(ParseType.STRING); }
 "true"							{ return Scan(ParseType.BOOL_LIT); }
 "void"							{ return Scan(ParseType.VOID); }
 "while"							{ return Scan(ParseType.WHILE); }
